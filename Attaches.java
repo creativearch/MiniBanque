@@ -12,7 +12,7 @@ public class Attaches {
     protected int []clients; 
   
     public Attaches (int _idAttaches, String _nomAttaches){ 
-  this.idAttaches=_idAttaches; 
-  this.nomAttaches=_nomAttaches; 
+     this.idAttaches=_idAttaches; 
+     this.nomAttaches=_nomAttaches; 
     } 
 } 
