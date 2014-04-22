@@ -48,7 +48,7 @@ public class CompteBancaire {
      */
     
     public void crediterCompte(float _solde){
-   	 this.solde=+_solde;
+   	 this.solde+=_solde;
     }
     
     /**
