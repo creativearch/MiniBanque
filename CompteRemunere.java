@@ -22,11 +22,11 @@ public class CompteRemunere extends CompteBancaire {
     }
     
     public void crediterCompte(float _solde){
-   	 if (_solde>this.soldeplafond){
+   	 if (this.solde+_solde>this.soldeplafond){
    		 System.out.println("Vous avez saisi un solde supérieur au solde plafond");
    	 }
    	 else {
-   		 this.solde=+_solde;
+   		 this.solde+=_solde;
    	 }
     }
     
