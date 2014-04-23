@@ -13,7 +13,7 @@ public class Client {
     
     private int idClient;
     private String nomClient;
-    private CompteBancaire []comptes;
+    private CompteBancaire []comptes = new comptes[0];
     
     /**
      * Construit le client
