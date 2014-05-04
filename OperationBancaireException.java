@@ -2,7 +2,7 @@ package Minibanque;
 
 public class OperationBancaireException extends Exception {
 
-    public OperationBancaireException() {
+    public OperationBancaireException(Throwable cause) {
    	 System.out.println("Votre montant est nul ou négatif ! Impossible d'effectuer l'opération");
     }
     
