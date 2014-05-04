@@ -9,6 +9,7 @@ public class Operation {
     protected String libelle;
     protected String statut;
     protected Date date;
+    protected Double montant;
     
     public Operation (String _nature, int _id, String _libelle, String _statut, Date _date) {
    	 this.nature=_nature;
@@ -26,6 +27,17 @@ public class Operation {
    	 this.date=_date;
     }
     
+    public void effectuer() throws OperationBancaireException{
+     try{
+       this.debiteur.debiter(this.montant);
+       this.crediteur.crediter(this.montant);
+       this.statut=1;
+     }
+     catch(SoldeInsuffisantException|PlafondDepasseException|MontantInvalidException e){
+       this.statut=-1;
+       throw new OperationBancaireException(e);
+     }  
+  }
 }
 
 
