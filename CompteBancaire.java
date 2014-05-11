@@ -45,16 +45,10 @@ public class CompteBancaire {
 	 * @since version 1.0
 	 */
 	
-	public void debiterCompte(float _solde){
-		try{
-			this.solde-=_solde;
-			Operation o = new Operation("debit", 01, "");
-			operations.add(o);
-			
-		}
-		catch{
-			
-		}
+	public boolean debiterCompte (double _solde) throws OperationBancaireException{
+			this.solde-= _solde; 
+			this.operations.get(this.operations.size()-1).setStatut("OK");
+			return true;
 	}
 	
 	/**
@@ -62,13 +56,10 @@ public class CompteBancaire {
 	 * @since version 1.0
 	 */
 	
-	public void crediterCompte(float _solde){
-		try{
-			this.solde=+_solde;
-		}
-		catch{
-			
-		}
+	public boolean crediterCompte(double _solde) throws OperationBancaireException{
+		this.solde += _solde;
+		this.operations.get(this.operations.size()-1).setStatut("OK");
+		return true;
 	}
 	
 	/**
