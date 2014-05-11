@@ -4,40 +4,52 @@ import java.util.Date;
 
 public class Operation {
 
-    protected String nature;
-    protected int id;
-    protected String libelle;
-    protected String statut;
-    protected Date date;
-    protected Double montant;
-    
-    public Operation (String _nature, int _id, String _libelle, String _statut, Date _date) {
-   	 this.nature=_nature;
-   	 this.id=_id;
-   	 this.libelle=_libelle;
-   	 this.statut=_statut;
-   	 this.date=_date;
-    }
-    
-    public void setStatut (String _statut){
-   	 this.statut=_statut;
-    }
-    
-    public void setDate (Date _date){
-   	 this.date=_date;
-    }
-    
-    public void effectuer() throws OperationBancaireException{
-     try{
-       this.debiteur.debiter(this.montant);
-       this.crediteur.crediter(this.montant);
-       this.statut=1;
-     }
-     catch(SoldeInsuffisantException|PlafondDepasseException|MontantInvalidException e){
-       this.statut=-1;
-       throw new OperationBancaireException(e);
-     }  
-  }
+	protected String nature; 
+	protected int id; 
+	protected String libelle;
+	protected String statut; 
+	protected Date date; 
+	private double montant;
+	private CompteBancaire pere;
+	
+	public Operation (String _nature, int _id, String _libelle, Date _date, double _montant, CompteBancaire _pere) {
+		this.nature=_nature; 
+		this.id=_id; 
+		this.libelle=_libelle; 
+		this.statut="ATTENTE"; 
+		this.date=_date; 
+		this.montant=_montant;
+		this.pere=_pere;
+	}
+	
+	public void setStatut (String _statut){
+		this.statut=_statut; 
+		if(this.statut=="OK"){
+			this.date=new Date();
+		}
+	}
+	
+	public void setDate (Date _date){
+		this.date=_date; 
+	}
+	
+	public CompteBancaire getCompte(){
+		return this.pere;
+	}
+	
+	public double getMontant(){
+		return this.montant;
+	}
+	
+	public String getStatus(){
+		return this.statut;
+	}
+	
+	public String getNature()
+	{
+		return this.nature;
+	}
+	
+	
+	
 }
-
-
