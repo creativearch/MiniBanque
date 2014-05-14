@@ -12,12 +12,12 @@ public class Operation {
 	private double montant;
 	private CompteBancaire pere;
 	
-	public Operation (String _nature, int _id, String _libelle, Date _date, double _montant, CompteBancaire _pere) {
+	public Operation (String _nature, int _id, String _libelle, double _montant, CompteBancaire _pere) {
 		this.nature=_nature; 
 		this.id=_id; 
 		this.libelle=_libelle; 
 		this.statut="ATTENTE"; 
-		this.date=_date; 
+		this.date=new Date(); 
 		this.montant=_montant;
 		this.pere=_pere;
 	}
