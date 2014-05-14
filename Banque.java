@@ -17,8 +17,8 @@ public class Banque
 	 */
 	public static void main(String[] args)
 	{
-		Attaches ac1 = new Attaches(0,"acl1");
-		Attaches ac2 = new Attaches(1,"acl2");
+		Attaches ac1 = new Attaches(0,"ac1");
+		Attaches ac2 = new Attaches(1,"ac2");
 
 		Client c1 = new Client(0, "Client 1", ac1);
 		Client c2 = new Client(1, "C", ac2);
@@ -44,4 +44,38 @@ public class Banque
 			ac2.getClient(1).getCompte(0).debiterCompte(2500);
 		}
 		catch(OperationBancaireException e)	{}
+		try
+		{
+			ac2.getClient(1).getCompte(0).debiterCompte(123);
+			ac2.getClient(1).getCompte(0).crediterCompte(1.55);
+		}
+		catch(OperationBancaireException e)	{}
+		try
+		{
+			c2.passerOrdreVirement(cc1,ce2,666);
+		}
+		catch(OperationBancaireException e)	{}
+		try
+		{
+			c2.passerOrdreVirement(cc1,ce2,10000);
+		}
+		catch(OperationBancaireException e)	{}
+		try
+		{
+			c2.passerOrdreVirement(cc1,ce2,10);
+		}
+		catch(OperationBancaireException e)	{}
+		/*
+		try
+		{
+			ac2.forcerOperation(ac2.getOperationAValider());
+		}
+		//catch(PersonnelNonAutoriseException e)	{}
+		 * */
+		System.out.println(c2);
+		System.out.println(cc1.operationsToString());
+		System.out.println(ce2.operationsToString());
+		//System.out.println(ac2.operationsAValiderToString());
+	}
+}
 
