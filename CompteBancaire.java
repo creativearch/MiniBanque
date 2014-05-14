@@ -13,7 +13,7 @@ public class CompteBancaire {
 	protected int idCompte; 
 	protected String libelle;
 	protected double solde; 
-	private ArrayList<Operation> operations = new ArrayList<Operation>();
+	ArrayList<Operation> operations = new ArrayList<Operation>();
 	
 	/**
 	 * Construit le Compte
@@ -24,6 +24,7 @@ public class CompteBancaire {
 		this.idCompte=_idCompte;
 		this.libelle=_libelle;
 		this.solde=0;
+		this.operations=new ArrayList<Operation>();
 	}
 	
 	public void setSolde(float _solde){
@@ -45,10 +46,19 @@ public class CompteBancaire {
 	 * @since version 1.0
 	 */
 	
-	public boolean debiterCompte (double _solde) throws OperationBancaireException{
-			this.solde-= _solde; 
-			this.operations.get(this.operations.size()-1).setStatut("OK");
-			return true;
+	public boolean debiterCompte (double _montant) throws OperationBancaireException{
+		this.operations.add(new Operation("Debit",this.operations.size(),"",_montant,this));
+		if(_montant<=0){
+			this.operations.get(this.operations.size()-1).setStatut("KO");
+			throw new OperationBancaireException("Le montant demandé est négatif.");
+		}
+		if(_montant>this.solde){
+			this.operations.get(this.operations.size()-1).setStatut("KO");
+			throw new OperationBancaireException("Le montant demandé est négatif.");
+		}
+		this.solde-= _montant; 
+		this.operations.get(this.operations.size()-1).setStatut("OK");
+		return true;
 	}
 	
 	/**
@@ -56,8 +66,13 @@ public class CompteBancaire {
 	 * @since version 1.0
 	 */
 	
-	public boolean crediterCompte(double _solde) throws OperationBancaireException{
-		this.solde += _solde;
+	public boolean crediterCompte(double _montant) throws OperationBancaireException{
+		this.operations.add(new Operation("Credit",this.operations.size(),"",_montant,this));
+		if(_montant<=0){
+			this.operations.get(this.operations.size()-1).setStatut("KO");
+			throw new OperationBancaireException("Le montant demandé est négatif.");
+		}
+		this.solde += _montant;
 		this.operations.get(this.operations.size()-1).setStatut("OK");
 		return true;
 	}
@@ -67,14 +82,13 @@ public class CompteBancaire {
 	 * @since version 1.0
 	 */
 	
-	public void consulterSolde(){
-		System.out.println(this.solde);
+	public double consulterSolde(){
+		return this.solde;
 	}
 	
 	public String operationsToString(){
 		String listeCompte = "";
-		for (Operation op: this.operations)
-		{
+		for (Operation op: this.operations){
 			listeCompte += op+"\n";
 		}
 		return listeCompte;
