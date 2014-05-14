@@ -26,6 +26,7 @@ public class Client {
 		this.idClient=_idClient;
 		this.nomClient=_nomClient;
 		this.attachesClient=_attachesClient;
+		this.comptes = new ArrayList<CompteBancaire>();
 	}
 	
 	
@@ -48,19 +49,14 @@ public class Client {
 		comptes.add(num);
 	}
 
-	public String toString() {
-		return "Client [idClient=" + idClient + ", nomClient=" + nomClient
-				+ ", comptes=" + Arrays.toString(comptes) + "]";
-	}
 	
 	public String getNom(){
 		return this.nomClient;
 	}
 	
-	public String toStringcompte(){
+	public String toString(){
 		String listeCompte = "";
-		for (CompteBancaire c: this.comptes)
-		{
+		for (CompteBancaire c: this.comptes){
 			listeCompte += c+"\n";
 		}
 		return "Numero client: "+this.idClient+"\nNom client: "+this.nomClient+"\nListe des comptes: \n"+listeCompte;
@@ -75,4 +71,39 @@ public class Client {
 	{
 		return this.comptes.contains(_comptes);
 	}
+	
+	
+	public boolean passerOrdreVirement(CompteBancaire compteOrigine, CompteBancaire compteDestinataire, double montant) throws OperationBancaireException{
+		boolean res = false;
+		
+		if ((!this.possedeCompte(compteOrigine)) || (!this.possedeCompte(compteDestinataire))){
+			throw new OperationBancaireException ("Un des comptes n'appartient pas au client");
+		}
+		else {
+			try{
+				if(compteOrigine.consulterSolde()>=montant){
+					try{
+						compteDestinataire.crediterCompte(montant);
+					}
+					catch(PlafondException e){
+						Operation operation_credit = compteDestinataire.operations.get(compteDestinataire.operations.size()-1);
+						compteOrigine.operations.add(new Operation("debit",compteOrigine.operations.size(),"",montant,compteOrigine));
+						Operation operation_debit = compteOrigine.operations.get(compteOrigine.operations.size()-1);
+						//operation_debit.setComplementaire(operation_credit);
+						//operation_credit.setComplementaire(operation_debit);
+						//this.attachesClient.ajoutOperationAValider(operation_debit);
+					}
+					res=true;
+				}
+				else{
+					res=false;
+				}
+			}
+			catch(OperationBancaireException e){
+				
+			}
+		}
+		return res;
+	}
+	
 }
