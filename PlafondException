@@ -1,0 +1,9 @@
+package Minibanque;
+
+public class PlafondException extends OperationBancaireException{
+
+	public PlafondException(String exc){
+		super(exc);
+	}
+}
+
